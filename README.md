@@ -110,6 +110,7 @@ curl -X POST http://localhost:8080/jobs \
 
 ## Files
 
+- `START_HERE_FOR_AGENTS.md` - single-entrypoint guide for agents using this control plane
 - `gpu_factory/api/` - API server
 - `gpu_factory/worker/` - typed job execution
 - `compose.yaml` - Redis and Chroma sidecars
