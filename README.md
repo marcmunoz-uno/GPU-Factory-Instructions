@@ -47,9 +47,16 @@ This stack gives agents a stable way to ask the DGX to do GPU work without givin
 
 ```bash
 cp .env.example .env
+./scripts/bootstrap-secrets.sh
 ```
 
-2. Set a strong API token in `.env`.
+2. The API token is stored in:
+
+```text
+.secrets/api_token
+```
+
+and `.env` points at it through `GPU_FACTORY_API_TOKEN_FILE`.
 
 3. Start Redis and Chroma:
 
@@ -68,13 +75,13 @@ pip install -e .
 5. Run the API:
 
 ```bash
-uvicorn gpu_factory.api.main:app --host 0.0.0.0 --port 8080
+./scripts/start-api.sh
 ```
 
 6. Run the worker:
 
 ```bash
-rq worker gpu-factory
+./scripts/start-worker.sh
 ```
 
 ## Example Requests
@@ -111,6 +118,10 @@ curl -X POST http://localhost:8080/jobs \
 ## Files
 
 - `START_HERE_FOR_AGENTS.md` - single-entrypoint guide for agents using this control plane
+- `scripts/bootstrap-secrets.sh` - create and permission-lock the API token file
+- `scripts/start-api.sh` - launch wrapper for the API
+- `scripts/start-worker.sh` - launch wrapper for the worker
+- `scripts/install-user-services.sh` - install user-level systemd units
 - `gpu_factory/api/` - API server
 - `gpu_factory/worker/` - typed job execution
 - `compose.yaml` - Redis and Chroma sidecars

@@ -25,6 +25,12 @@ This repo is the safer way to use the DGX for GPU work.
 
 ## Fastest Safe Usage
 
+Load the local token safely:
+
+```bash
+TOKEN=$(cat /home/mxrcmunoz/Desktop/GPU-Factory-Instructions/.secrets/api_token)
+```
+
 Health:
 
 ```bash
@@ -34,7 +40,6 @@ curl http://127.0.0.1:8080/health
 Submit GPU probe:
 
 ```bash
-TOKEN=$(grep '^GPU_FACTORY_API_TOKEN=' /home/mxrcmunoz/Desktop/GPU-Factory-Instructions/.env | cut -d= -f2-)
 curl -X POST http://127.0.0.1:8080/jobs \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \

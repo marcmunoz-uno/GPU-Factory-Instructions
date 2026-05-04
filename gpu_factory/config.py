@@ -8,6 +8,17 @@ def _split_csv(value: str) -> list[str]:
     return [part.strip() for part in value.split(",") if part.strip()]
 
 
+def _load_token() -> str:
+    token = os.environ.get("GPU_FACTORY_API_TOKEN", "").strip()
+    token_file = os.environ.get("GPU_FACTORY_API_TOKEN_FILE", "").strip()
+    if token:
+        return token
+    if token_file:
+        with open(token_file, "r", encoding="utf-8") as handle:
+            return handle.read().strip()
+    return ""
+
+
 @dataclass(frozen=True)
 class Settings:
     api_token: str
@@ -20,9 +31,9 @@ class Settings:
 
 
 def load_settings() -> Settings:
-    token = os.environ.get("GPU_FACTORY_API_TOKEN", "").strip()
+    token = _load_token()
     if not token:
-        raise RuntimeError("GPU_FACTORY_API_TOKEN must be set")
+        raise RuntimeError("GPU_FACTORY_API_TOKEN or GPU_FACTORY_API_TOKEN_FILE must be set")
 
     return Settings(
         api_token=token,

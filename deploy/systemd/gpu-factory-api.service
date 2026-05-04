@@ -1,0 +1,13 @@
+[Unit]
+Description=GPU Factory API
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions
+ExecStart=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/scripts/start-api.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

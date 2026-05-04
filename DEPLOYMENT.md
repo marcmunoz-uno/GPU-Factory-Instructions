@@ -15,21 +15,19 @@ Those were validated separately on this machine.
 ```bash
 cd /home/mxrcmunoz/Desktop/GPU-Factory-Instructions
 cp .env.example .env
+./scripts/bootstrap-secrets.sh
 python3 /tmp/virtualenv.pyz .venv
 source .venv/bin/activate
 pip install -e .
 docker compose up -d redis chromadb
-export $(grep -v '^#' .env | xargs)
-uvicorn gpu_factory.api.main:app --host 0.0.0.0 --port 8080
+./scripts/start-api.sh
 ```
 
 In a second shell:
 
 ```bash
 cd /home/mxrcmunoz/Desktop/GPU-Factory-Instructions
-source .venv/bin/activate
-export $(grep -v '^#' .env | xargs)
-rq worker gpu-factory
+./scripts/start-worker.sh
 ```
 
 ## Recommended Internal Exposure
@@ -38,41 +36,30 @@ rq worker gpu-factory
 - do not expose port `8080` publicly
 - rotate `GPU_FACTORY_API_TOKEN`
 
-## Example Worker/API Services
+## User-Level Persistent Services
 
-API service:
+Install units:
 
-```ini
-[Unit]
-Description=GPU Factory API
-After=network.target docker.service
-
-[Service]
-WorkingDirectory=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions
-EnvironmentFile=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/.env
-ExecStart=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/.venv/bin/uvicorn gpu_factory.api.main:app --host 0.0.0.0 --port 8080
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
+```bash
+./scripts/install-user-services.sh
+systemctl --user daemon-reload
+systemctl --user enable --now gpu-factory-api.service gpu-factory-worker.service
 ```
 
-Worker service:
+Unit files live in:
 
-```ini
-[Unit]
-Description=GPU Factory Worker
-After=network.target docker.service
-
-[Service]
-WorkingDirectory=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions
-EnvironmentFile=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/.env
-ExecStart=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/.venv/bin/rq worker gpu-factory
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
+```text
+deploy/systemd/gpu-factory-api.service
+deploy/systemd/gpu-factory-worker.service
 ```
+
+The current tool runtime could not execute `systemctl`, so the package now includes the exact units and installer, but final enablement must be run from a real host shell.
+
+## Secret Handling
+
+- `.env` is now meant to reference a file-based token, not store the token inline
+- `.secrets/api_token` should remain mode `600`
+- `.secrets/` should remain mode `700`
 
 ## Validation Flow
 
