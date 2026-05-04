@@ -2,5 +2,6 @@
 __pycache__/
 *.pyc
 .env
+.secrets/
 data/
 *.log

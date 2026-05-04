@@ -10,6 +10,7 @@ This package turns the useful premise of "submit work to the DGX over an API" in
 - Docker-first GPU execution
 - typed jobs instead of raw shell commands
 - bearer token auth
+- local MCP server for MCP-capable agents
 - optional ChromaDB sidecar for retrieval workloads
 
 ## Why This Exists
@@ -84,6 +85,12 @@ pip install -e .
 ./scripts/start-worker.sh
 ```
 
+7. Run the MCP server:
+
+```bash
+./scripts/start-mcp.sh
+```
+
 ## Example Requests
 
 Health:
@@ -121,7 +128,9 @@ curl -X POST http://localhost:8080/jobs \
 - `scripts/bootstrap-secrets.sh` - create and permission-lock the API token file
 - `scripts/start-api.sh` - launch wrapper for the API
 - `scripts/start-worker.sh` - launch wrapper for the worker
+- `scripts/start-mcp.sh` - launch wrapper for the local MCP server
 - `scripts/install-user-services.sh` - install user-level systemd units
+- `gpu_factory/mcp/server.py` - stdio MCP adapter over the local GPU Factory API
 - `gpu_factory/api/` - API server
 - `gpu_factory/worker/` - typed job execution
 - `compose.yaml` - Redis and Chroma sidecars

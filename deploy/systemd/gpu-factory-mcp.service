@@ -1,0 +1,13 @@
+[Unit]
+Description=GPU Factory MCP Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions
+ExecStart=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/scripts/start-mcp.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

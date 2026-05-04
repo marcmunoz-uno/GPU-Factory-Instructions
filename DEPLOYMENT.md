@@ -30,6 +30,13 @@ cd /home/mxrcmunoz/Desktop/GPU-Factory-Instructions
 ./scripts/start-worker.sh
 ```
 
+In a third shell for MCP-capable agents:
+
+```bash
+cd /home/mxrcmunoz/Desktop/GPU-Factory-Instructions
+./scripts/start-mcp.sh
+```
+
 ## Recommended Internal Exposure
 
 - bind to Tailscale or another internal interface
@@ -43,7 +50,7 @@ Install units:
 ```bash
 ./scripts/install-user-services.sh
 systemctl --user daemon-reload
-systemctl --user enable --now gpu-factory-api.service gpu-factory-worker.service
+systemctl --user enable --now gpu-factory-api.service gpu-factory-worker.service gpu-factory-mcp.service
 ```
 
 Unit files live in:
@@ -51,6 +58,7 @@ Unit files live in:
 ```text
 deploy/systemd/gpu-factory-api.service
 deploy/systemd/gpu-factory-worker.service
+deploy/systemd/gpu-factory-mcp.service
 ```
 
 The current tool runtime could not execute `systemctl`, so the package now includes the exact units and installer, but final enablement must be run from a real host shell.

@@ -53,6 +53,21 @@ curl http://127.0.0.1:8080/jobs/<job_id> \
   -H "Authorization: Bearer $TOKEN"
 ```
 
+## MCP Option
+
+If your runtime supports MCP, prefer the local MCP server instead of crafting HTTP calls manually. The stdio entrypoint is:
+
+```bash
+/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/scripts/start-mcp.sh
+```
+
+It exposes typed tools:
+
+- `gpu_probe`
+- `python_probe`
+- `run_cuda_container`
+- `get_job_status`
+
 ## Preferred Job Order
 
 1. `gpu_probe`
