@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions
-ExecStart=/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/scripts/start-worker.sh
+ExecStart=/usr/bin/sg docker -c "/home/mxrcmunoz/Desktop/GPU-Factory-Instructions/scripts/start-worker.sh"
 Restart=always
 RestartSec=5
 
