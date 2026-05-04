@@ -144,3 +144,10 @@ curl -X POST http://localhost:8080/jobs \
 - Rotate API tokens
 - Add audit logging to a file or SQLite
 - Add explicit job quotas and timeouts per job type
+
+## Service Model
+
+- `gpu-factory-api.service` should run persistently
+- `gpu-factory-worker.service` should run persistently
+- the MCP server should **not** run as a persistent service
+- MCP clients should spawn `scripts/start-mcp.sh` on demand over stdio

@@ -68,6 +68,8 @@ It exposes typed tools:
 - `run_cuda_container`
 - `get_job_status`
 
+Do not expect a persistent MCP daemon. The client should spawn `start-mcp.sh` when needed.
+
 ## Preferred Job Order
 
 1. `gpu_probe`
