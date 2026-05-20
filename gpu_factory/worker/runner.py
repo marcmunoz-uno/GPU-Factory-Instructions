@@ -7,7 +7,7 @@ from typing import Sequence
 from gpu_factory.config import settings
 
 
-def _trim(text: str, limit: int = 5000) -> str:
+def _trim(text: str, limit: int = 50000) -> str:
     return text[-limit:]
 
 
